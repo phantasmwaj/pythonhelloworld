@@ -1,4 +1,5 @@
 import datetime
+import random
 from flask import Flask
 
 app = Flask(__name__)
@@ -24,6 +25,14 @@ def get_student(id):
         if student["id"] == id:
             return student
     return {"error": "Student not found"}
+
+
+@app.route("/students/<string:name>", methods=["POST"])
+def add_student(name):
+    id = studentsDb[-1]["id"] + 1; # Get the last student id and increment by 1
+    student = {"id": id, "name": name, "age": random.randint(18, 60)}
+    studentsDb.append(student)
+    return student
 
 if (__name__ == "__main__"):
     app.run()
