@@ -18,5 +18,12 @@ def welcome():
 def get_students():
     return {"students": studentsDb}
 
+@app.route("/students/<int:id>", methods=["GET"])
+def get_student(id):
+    for student in studentsDb:
+        if student["id"] == id:
+            return student
+    return {"error": "Student not found"}
+
 if (__name__ == "__main__"):
     app.run()
