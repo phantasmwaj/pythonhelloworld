@@ -1,6 +1,6 @@
 import datetime
 import random
-from flask import Flask
+from flask import Flask, request
 
 app = Flask(__name__)
 
@@ -33,6 +33,23 @@ def add_student(name):
     student = {"id": id, "name": name, "age": random.randint(18, 60)}
     studentsDb.append(student)
     return student
+
+@app.route("/students/<int:id>", methods=["DELETE"])
+def delete_studen(id): 
+    for student in studentsDb:
+        if student["id"] == id:
+            studentsDb.remove(student)
+            return student
+    return {"error": "student not found"}
+
+@app.route("/students/update/<int:id>", method=["UPDATE"])
+def update_student(id):
+    for student in studentsDb:
+        if student["id"] == id:
+            student["name"] = request.json["name"]
+            student["age"] = request.json["age"]
+            return student
+    return {"error": "student not found"}
 
 if (__name__ == "__main__"):
     app.run()
