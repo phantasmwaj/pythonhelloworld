@@ -42,7 +42,7 @@ def delete_studen(id):
             return student
     return {"error": "student not found"}
 
-@app.route("/students/update/<int:id>", method=["UPDATE"])
+@app.route("/students/<int:id>", methods=["PUT"])
 def update_student(id):
     for student in studentsDb:
         if student["id"] == id:
@@ -50,6 +50,8 @@ def update_student(id):
             student["age"] = request.json["age"]
             return student
     return {"error": "student not found"}
+
+
 
 if (__name__ == "__main__"):
     app.run()
